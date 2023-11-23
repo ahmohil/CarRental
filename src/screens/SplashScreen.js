@@ -8,10 +8,9 @@ const SplashScreen = ({ navigation }) => {
     // You can add any additional logic here, such as checking if it's the first time the app is launched.
     // For simplicity, I'm using a setTimeout to simulate a delay.
 
-    //setTimeout(() => {
-      // Navigate to the next screen after the splash screen is displayed.
-     // navigation.replace('Login'); // Replace 'Home' with the name of your main screen.
-    //}, 3000); // Adjust the duration as needed.
+    setTimeout(() => {
+     navigation.replace('Login'); // Replace 'Home' with the name of your main screen.
+    }, 3000); // Adjust the duration as needed.
   }, []);
 
   return (

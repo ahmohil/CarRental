@@ -16,8 +16,6 @@ const LoginScreen = () => {
     console.log('Login button pressed');
     Keyboard.dismiss();
     navigation.navigate('TabBar');
-    
-    // You may want to navigate to the next screen upon successful login.
   };
 
   const handlePressOutside = () => {
@@ -40,10 +38,12 @@ const LoginScreen = () => {
       <ScrollView contentContainerStyle={styles.container}>
 
 
-
+        <View style={styles.header}>
         <Header />
 
-        <Text style={styles.tagline}>Welcome to Car Rental</Text>
+        </View>
+
+        <Text style={styles.tagline}>Create your account</Text>
 
         <View style={styles.form}>
 
@@ -68,12 +68,23 @@ const LoginScreen = () => {
             activeOutlineColor="#17B3A6"
             theme={theme}
           />
+          <TextInput
+            style={styles.input}
+            mode="outlined"
+            label="Confirm Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            outlineColor="rgba(50, 50, 50, 0.15)"
+            activeOutlineColor="#17B3A6"
+            theme={theme}
+          />
           <Pressable
             android_ripple={{ color: "#218644" }}
             style={styles.button}
             onPress={handleLogin}
             >
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Sign Up</Text>
           </Pressable>
         </View>
         <View style = {styles.loginWith}>
@@ -95,24 +106,6 @@ const LoginScreen = () => {
       />
           </View>
         </View>
-        <View style={styles.footer}>
-          <View style={styles.signupForgot}>
-            <Text style = {styles.signupForgotText}>
-              Don't Have any account
-            </Text>
-            <Text style={styles.link} onPress={() => navigation.navigate('Signup')}>
-              Sign Up
-            </Text>
-          </View>
-          <View style={styles.signupForgot}>
-            <Text style = {styles.signupForgotText}>
-              Forgot Password?
-            </Text>
-            <Text style={styles.link} onPress={() => navigation.navigate('ForgotPass')}>
-              Click Here
-            </Text>
-          </View>
-        </View>
       </ScrollView>
       </TouchableWithoutFeedback>
     </SafeAreaView>
@@ -122,13 +115,12 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    paddingTop: StatusBar.currentHeight || 0,
-    backgroundColor: 'white',
-
+    paddingTop: 0,
   },
   container: {
     alignItems: 'center',
     width: '100%',
+    marginTop: 0,
   },
   form: {
     marginTop: "8%",
@@ -137,20 +129,12 @@ const styles = StyleSheet.create({
   },
   input: {
     marginVertical: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
   tagline: {
     flexDirection: 'row',
     alignItems: 'flex-start',
     textAlign: 'left',
-    paddingTop: '20%',
+    paddingTop: '10%',
     width: '80%',
     color: '#19779B',
     fontSize: 20
@@ -164,29 +148,7 @@ const styles = StyleSheet.create({
   divider: {
     marginVertical: 20,
   },
-  link: {
-    color: 'black',
-    textDecorationLine: 'underline',
-    marginLeft: 5,
-    fontSize: 17,
-  },
 
-  signupForgot: {
-    flexDirection: 'row',
-    alignContent: 'center',
-    alignItems: 'center',
-    marginVertical: 10,
-  },
-  signupForgotText: { 
-    fontSize: 15, 
-    color: '#7C7C8A', 
-    marginRight: 5,
-  },
-  footer: {
-    flex: 1,
-    marginVertical: 20,
-    flexDirection: 'column',
-  },
   buttonText: {
     fontSize: 20,
     color: 'white',
