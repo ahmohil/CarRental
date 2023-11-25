@@ -1,24 +1,54 @@
 import React, { useState } from 'react';
 import { View, Image, StyleSheet, StatusBar, Text, ScrollView } from 'react-native';
-
+import { useAuth } from '../Context/AuthContext';
 import Header from '../components/Header';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Pressable, Keyboard,
-  TouchableWithoutFeedback, } from 'react-native';
+import {
+  Pressable, Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import { TextInput, DefaultTheme } from "react-native-paper";
 import { useNavigation } from '@react-navigation/native';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const handleLogin = () => {
-    // Implement your login logic here
-    console.log('Login button pressed');
-    Keyboard.dismiss();
-    navigation.navigate('TabBar');
-    
-    // You may want to navigate to the next screen upon successful login.
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [isInvalid, setIsInvalid] = useState(false);
+
+  const { login } = useAuth();
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
+
+  const handleLogin = () => {
+    setEmailError(false);
+    setPasswordError(false);
+    setIsInvalid(false);
+
+    if (email && password && validateEmail(email) & password.length >= 5) {
+      
+        const user = {email,password}
+        login(user)
+        setEmail("");
+        setPassword("");
+      
+
+      Keyboard.dismiss();
+      return;
+    }
+
+    if (!email || !validateEmail(email)) {
+      setEmailError(true);
+    }
+    if (!password || password.length < 5) {
+      setPasswordError(true);
+    }
+  };
+
 
   const handlePressOutside = () => {
     Keyboard.dismiss();
@@ -37,83 +67,87 @@ const LoginScreen = () => {
   return (
     <SafeAreaView style={styles.wrapper}>
       <TouchableWithoutFeedback onPress={handlePressOutside}>
-      <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
 
 
 
-        <Header />
+          <Header />
 
-        <Text style={styles.tagline}>Welcome to Car Rental</Text>
+          <Text style={styles.tagline}>Welcome to Car Rental</Text>
 
-        <View style={styles.form}>
-
-          <TextInput
-            style={styles.input}
-            mode="outlined"
-            label="E-mail"
-            value={email}
-            onChangeText={setEmail}
-            outlineColor="rgba(50, 50, 50, 0.15)"
-            activeOutlineColor="#17B3A6"
-            theme={theme}
-          />
-          <TextInput
-            style={styles.input}
-            mode="outlined"
-            label="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            outlineColor="rgba(50, 50, 50, 0.15)"
-            activeOutlineColor="#17B3A6"
-            theme={theme}
-          />
-          <Pressable
-            android_ripple={{ color: "#218644" }}
-            style={styles.button}
-            onPress={handleLogin}
-            >
-            <Text style={styles.buttonText}>Login</Text>
-          </Pressable>
-        </View>
-        <View style = {styles.loginWith}>
-          <Text style = {styles.loginWithText}>
-            Login With
+          <View style={styles.form}>
+          {isInvalid && (
+          <Text style={{ color: "red", textAlign: "center" }}>
+            Invalid email or password
           </Text>
-          <View style = {styles.appLogos}>
-          <Image
-        source={require('../../assets/google.png')} // Change 'yourImage.png' to the actual filename
-        style={styles.image}
-      />
-      <Image
-        source={require('../../assets/facebook.png')} // Change 'yourImage.png' to the actual filename
-        style={styles.image}
-      />
-      <Image
-        source={require('../../assets/twitter.png')} // Change 'yourImage.png' to the actual filename
-        style={styles.image}
-      />
+          )}
+            <TextInput
+              style={styles.input}
+              mode="outlined"
+              label="E-mail"
+              value={email}
+              onChangeText={setEmail}
+              outlineColor= {emailError ? "red" : "rgba(50, 50, 50, 0.15)"}
+              activeOutlineColor={emailError ? "red" : "#17B3A6"}
+              theme={theme}
+            />
+            <TextInput
+              style={styles.input}
+              mode="outlined"
+              label="Password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+              outlineColor= {passwordError ? "red" : "rgba(50, 50, 50, 0.15)"}
+              activeOutlineColor={passwordError ? "red" : "#17B3A6"}
+              theme={theme}
+            />
+            <Pressable
+              android_ripple={{ color: "#218644" }}
+              style={styles.button}
+              onPress={handleLogin}
+            >
+              <Text style={styles.buttonText}>Login</Text>
+            </Pressable>
           </View>
-        </View>
-        <View style={styles.footer}>
-          <View style={styles.signupForgot}>
-            <Text style = {styles.signupForgotText}>
-              Don't Have any account
+          <View style={styles.loginWith}>
+            <Text style={styles.loginWithText}>
+              Login With
             </Text>
-            <Text style={styles.link} onPress={() => navigation.navigate('Signup')}>
-              Sign Up
-            </Text>
+            <View style={styles.appLogos}>
+              <Image
+                source={require('../../assets/google.png')} 
+                style={styles.image}
+              />
+              <Image
+                source={require('../../assets/facebook.png')} 
+                style={styles.image}
+              />
+              <Image
+                source={require('../../assets/twitter.png')} 
+                style={styles.image}
+              />
+            </View>
           </View>
-          <View style={styles.signupForgot}>
-            <Text style = {styles.signupForgotText}>
-              Forgot Password?
-            </Text>
-            <Text style={styles.link} onPress={() => navigation.navigate('ForgotPass')}>
-              Click Here
-            </Text>
+          <View style={styles.footer}>
+            <View style={styles.signupForgot}>
+              <Text style={styles.signupForgotText}>
+                Don't Have any account
+              </Text>
+              <Text style={styles.link} onPress={() => navigation.navigate('Signup')}>
+                Sign Up
+              </Text>
+            </View>
+            <View style={styles.signupForgot}>
+              <Text style={styles.signupForgotText}>
+                Forgot Password?
+              </Text>
+              <Text style={styles.link} onPress={() => navigation.navigate('ForgotPass')}>
+                Click Here
+              </Text>
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
       </TouchableWithoutFeedback>
     </SafeAreaView>
   );
@@ -177,9 +211,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 10,
   },
-  signupForgotText: { 
-    fontSize: 15, 
-    color: '#7C7C8A', 
+  signupForgotText: {
+    fontSize: 15,
+    color: '#7C7C8A',
     marginRight: 5,
   },
   footer: {
@@ -207,17 +241,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 4,
   },
-  loginWith:{
+  loginWith: {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: '10%',
   },
-  loginWithText:{
+  loginWithText: {
     fontSize: 15,
     color: '#7C7C8A',
   },
-  appLogos:{
+  appLogos: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     width: '80%',
@@ -228,9 +262,9 @@ const styles = StyleSheet.create({
     height: 60,
     resizeMode: 'contain',
     margin: 10,
-    borderWidth: 0.5, 
-    borderColor: '#7C7C8A', 
-    borderRadius: 5, 
+    borderWidth: 0.5,
+    borderColor: '#7C7C8A',
+    borderRadius: 5,
   }
 });
 

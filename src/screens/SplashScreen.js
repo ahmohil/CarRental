@@ -4,15 +4,7 @@ import { View, Image, StyleSheet, Text } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import LogoSVG from '../components/LogoSVG';
 const SplashScreen = ({ navigation }) => {
-  useEffect(() => {
-    // You can add any additional logic here, such as checking if it's the first time the app is launched.
-    // For simplicity, I'm using a setTimeout to simulate a delay.
-
-    setTimeout(() => {
-     navigation.replace('Login'); // Replace 'Home' with the name of your main screen.
-    }, 3000); // Adjust the duration as needed.
-  }, []);
-
+  
   return (
     <LinearGradient colors={['#19779B', '#17B3A6']} style={styles.container}>
       <View style = {styles.headline}>

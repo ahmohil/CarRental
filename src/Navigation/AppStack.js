@@ -1,16 +1,19 @@
-    import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Account from '../screens/Authenticated/Account';
-import MyAds from '../screens/Authenticated/MyAds';
-import Chat from '../screens/Authenticated/Chat';
-import CreateAd from '../screens/Authenticated/CreateAd';
-import HomeStack from '../screens/Authenticated/HomeScreen';
-const TabBar = () => {
-    const Tab = createBottomTabNavigator();
+import React from "react";
+import AntDesign from "react-native-vector-icons/AntDesign";
+import Account from "../screens/Authenticated/Account";
+import MyAds from "../screens/Authenticated/MyAds";
+import Chat from "../screens/Authenticated/Chat";
+import CreateAd from "../screens/Authenticated/CreateAd";
+import HomeStack from "../screens/Authenticated/HomeScreen";
 
-    return (
-        <Tab.Navigator
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+
+const AppStack = () => {
+  const Tab = createBottomTabNavigator();
+
+  return (
+    <Tab.Navigator
             screenOptions={{
                 tabBarActiveTintColor: '#17B3A6',
                 tabBarStyle: { 
@@ -87,7 +90,7 @@ const TabBar = () => {
                 }}
             />
         </Tab.Navigator>
-    );
+  );
 };
 
-export default TabBar;
+export default AppStack;

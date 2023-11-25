@@ -1,20 +1,22 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const RenderItem = ({ item}) => {
+const RenderItem = ({ item }) => {
     const navigation = useNavigation();
 
     const handlePress = () => {
         navigation.navigate('CarDetails', { item: item });
-      };
+    };
     return (
 
         <Pressable style={styles.container} onPress={handlePress} >
-            <View>
-                <Text>
-                    Imae placeholder
-                </Text>
+            <View style={styles.imageContainer}>
+                <Image
+                    source={require('../../assets/car.png')}
+                    style={styles.image}
+                    resizeMode="contain"
+                />
             </View>
             <View >
                 <Text style={{ fontWeight: 'bold', fontSize: 17 }}>{item.Make}</Text>
@@ -42,6 +44,16 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 2,
     },
+    imageContainer: {
+        height: 150,
+        marginBottom: 10, 
+    },
+    image: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+    },
+
 });
 
 export default RenderItem;

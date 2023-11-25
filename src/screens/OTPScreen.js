@@ -1,8 +1,9 @@
 import OTPTextInput from "react-native-otp-textinput";
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, Pressable, Keyboard,TouchableWithoutFeedback, StyleSheet } from 'react-native';
-
+import { useNavigation } from "@react-navigation/native";
 const OTPScreen = () => {
+  const navigation = useNavigation();
           const [otp, setOTP] =useState("") 
           const [timer, setTimer] = useState(60);
           const [timerActive, setTimerActive] = useState(true);
@@ -15,6 +16,7 @@ const OTPScreen = () => {
              console.log("OTP submitted:", otp);
              otpInput.current.clear();
              Keyboard.dismiss();
+             navigation.navigate('ResetPass');
            };
 
            useEffect(() => {
@@ -49,7 +51,7 @@ const OTPScreen = () => {
                   <Text style={styles.description}>
                     Enter the OTP sent to {"\n"}
                     <Text style={{ fontWeight: "bold" }}>
-                      khuzaimaa@gmail.com
+                      ahmohil78@gmail.com
                     </Text>
                   </Text>
                   <OTPTextInput
